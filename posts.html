@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang=pt>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/blog.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/fakedb.js"></script>
+</head>
+
+<body onload="init()">
+
+    <div class=" topo-pagina">
+        <div class="container-fluid mask">
+            <div class="row linha-menu">
+                <nav class="col-md-6 navbar text-center menu">
+                    <ul class="nav">
+                        <li class="text-uppercase"><a href="index.html">Inicio</a></li>|
+                        <li class="text-uppercase"><a href="index.com">Sobre Nós</a></li> |
+                        <li class="text-uppercase"><a href="index.com">GitHub</a></li>
+                    </ul>
+                </nav>
+                <div class="row">
+                    <div class="col-md-12 text-center nome-site">
+                        <h1>Os Viajantes</h1>
+                    </div>
+                    <div class=" col-md-12 row text-center"> <a href="novoPost.html"> <button class="botao">NOVO
+                                POST</button> </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="container">
+            <div class="row" id="post">
+
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <h1 class="text-center">Comentários <span id="qnt-comentarios">(0)</span></h1>
+            </div>
+            <div class="row">
+                <div id="msg" class="col-sm-10 offset-sm-1 ">
+                </div>
+            </div>
+
+            <form id="form-comentario">
+                <div class="form-group row">
+                    <div class="col-sm-1 tampa">
+                        <label for="inputId">Id</label>
+                        <input type="text" class="form-control" id="inputId" placeholder="ID" disabled>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="inputNome">Nome:</label>
+                        <input type="text" class="form-control" id="inputNome" required placeholder="Informe seu nome">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12 ">
+                        <label for="inputTexto">Texto do comentário(*)</label>
+                        <textarea type="text" class="form-control" id="inputTexto" required
+                            placeholder="Informe o texto do comentário"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <small>(*) Campos obrigatórios</small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12 text-right">
+                        <input type="button" class="btn btn-success" id="btnInsert" value="Comentar">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12" id="espacoComentario">
+                    comentario
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+        <script>
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            var post = '';
+            for (i = 0; i < db.posts.length; i++) {
+                if (db.posts[i].id == id) {
+                    post += `<div class="col-sm-12 titulo_post" id="postagens">
+                                <h1>${db.posts[i].titulo}</h1>
+                            
+                            <div class="row data_post">
+                                    <small>Postado em ${db.posts[i].data}</small>
+                                </div>
+                            <div class="row imagem_post">
+                                <img src=" ${db.posts[i].img}" alt="">
+                                <div class="like-counter text-right"><span class="click-text">CURTIDAS: <a id="clicks"></span></div>
+
+                            </div>
+                            <div class="row texto_post">
+                                    <p>${db.posts[i].texto}</p>
+                            </div>
+                            </div>`;
+                    break;
+                }
+            }
+            document.getElementById('post').innerHTML = post;
+
+
+            function exibeComentarios() {
+                //remove os posts anteriores
+                $("#espacoComentario").html("");
+
+                // Popula a tabela com os registros do banco de dados
+                var coments = '';
+                var qntComentarios = '';
+
+                for (i = 0; i < db.posts.length; i++) {
+                    if (db.posts[i].id == id) {
+                        for (j = 1; j < db.posts[i].comentarios.length; j++) {
+                            coments += `
+                                <div class="comentario">
+                                    <p class="nome-comentario">Nome: ${db.posts[i].comentarios[j].nome}</p>
+                                    <p class="texto-comentario">${db.posts[i].comentarios[j].textoComent}</p>
+                                </div>`;
+                        }
+                        break;
+                    }
+                }
+                qntComentarios += `(${db.posts[i].comentarios.length - 1})`
+
+                document.getElementById('espacoComentario').innerHTML = coments;
+                document.getElementById('qnt-comentarios').innerHTML = qntComentarios;
+
+                
+
+            }
+
+            function init() {
+                //funçoes para tratar os eventos
+                $("#btnInsert").click(function () {
+                    //verifica se o formulario foi preenchido corretamente
+                    if (!$('#form-comentario')[0].checkValidity()) {
+                        displayMessage("Preencha os campos corretamente");
+                        return;
+                    }
+                    // Obtem os valores dos campos
+                    let campoNome = $("#inputNome").val();
+                    let campoTexto = $("#inputTexto").val();
+                    let comentario = { nome: campoNome, textoComent: campoTexto };
+
+                    insertComentario(comentario);
+                    exibeComentarios();
+
+                });
+            }
+            exibeComentarios();
+
+
+
+
+
+        </script>
+
+<script type="text/javascript" src="js/fakedb.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+</body>
+
+</html>
