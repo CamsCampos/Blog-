@@ -1,0 +1,148 @@
+
+.tampa {
+    display: none;
+}
+
+
+/*MENU*/
+.topo-pagina{  
+    background: url(/img/monte.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: 100vh;
+}
+@media (max-width: 740px) {
+    .topo-pagina {
+        height: 90vh;
+}}
+.mask {
+    background-color: rgba(0, 0, 0, 0.3);
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.nome-site h1{
+    color: white;
+    font-size: 80px;
+    margin-bottom: 80px;
+}
+.nome-site p {
+    margin: 0 250px;
+    font-size: 20px;
+}
+
+.menu {
+    color: white;
+    font-size: 20px;
+    margin-top: 80px;
+
+}
+.menu ul li {
+    display: inline;
+    margin: 20px;
+   
+}
+.menu a {
+    display: inline !important;
+    color: rgb(20, 20, 20);
+    letter-spacing: 2px;
+    color: white;
+    font-size: 18px;
+}
+
+.botao {
+    background-color: rgb(255, 255, 255, 0.3);
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 5px 50px;
+    margin-top: 50px;
+    font-size: 25px;
+}
+
+
+/*Posts PÁG INICIAL*/
+.imagem-inicial {
+    min-height: 20px!important;
+
+}
+.caixa-post {
+    height: 600px;
+}
+#postagens {
+    margin: 20px 0px;
+    padding: 20px;
+}
+#postagens p {
+    margin: 25px 25px 0px 25px;
+}
+.like {
+    cursor: pointer;
+
+}
+#postagens h2 {
+    font-size: 15px;
+    
+    
+}
+#postagens img {
+    width: 100%;
+}
+
+
+/*Inputs*/
+#inputTexto {
+    height: 200px;
+}
+
+/*POSTS PÁG SECUNDÁRIA*/
+.titulo_post {
+    text-align: center;
+}
+.data_post {
+    text-align: left;
+    display: block;
+    padding: 20px 80px;
+    font-size: 20px;
+    
+}
+.imagem_post {
+    text-align: center;
+}
+.texto_post {
+    text-align: justify;
+    padding: 20px;
+}
+.comentario {
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.nome-comentario {
+    font-size: 20px;
+}
+.texto-comentario {
+    margin-left: 20px;
+}
+
+/*footer*/
+.footer {
+    background-color: rgb(32, 32, 32);
+    color: white;
+    height: 100px;
+    margin-top: 20px;
+    padding: 0 350px 0 0;
+    
+}
+.like-counter {
+    color: #000;
+    text-decoration: none;
+    margin: 50px;
+  }
+  .like-counter:hover {
+   cursor: pointer
+  }
+  .liked {
+    font-weight: bold;
+  }
